@@ -151,7 +151,7 @@ export const DocumentPDF = React.forwardRef<HTMLDivElement, DocumentPDFProps>(
 
           {/* Document Type Banner */}
           <div className="blue-banner">
-            SERVICE {getDocumentTypeDisplayName(document.type).toUpperCase()}
+            {getDocumentTypeDisplayName(document.type).toUpperCase()}
           </div>
 
           {/* Items Table */}
@@ -221,8 +221,6 @@ export const DocumentPDF = React.forwardRef<HTMLDivElement, DocumentPDFProps>(
             <span style={{ borderBottom: '1px solid #666', display: 'inline-block', minWidth: '120px', marginLeft: '10px', paddingLeft: '5px' }}>
               {document.signature || '____'}
             </span>
-            <span style={{ fontWeight: 'bold', marginLeft: '60px' }}>All</span>
-            <span style={{ borderBottom: '1px solid #666', display: 'inline-block', minWidth: '120px', marginLeft: '10px' }}></span>
           </div>
 
           {/* Company Name */}
