@@ -35,7 +35,7 @@ export default function Home() {
         {/* Header Section */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-blue-600 mb-4">
-            TECHLA SOLUTIONS
+            TECHLA 
           </h1>
           <p className="text-xl text-gray-600 mb-2">
             Document Management System
