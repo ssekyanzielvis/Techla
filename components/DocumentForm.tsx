@@ -234,7 +234,7 @@ export default function DocumentForm({ type }: DocumentFormProps) {
 
         {/* Document Type Banner */}
         <div className="bg-[#0066CC] text-white text-center py-2 font-bold text-lg uppercase tracking-wide -mx-6 mb-4">
-          SERVICE {getDocumentTypeDisplayName(type).toUpperCase()}
+           {getDocumentTypeDisplayName(type).toUpperCase()}
         </div>
 
         {/* Items Table */}
