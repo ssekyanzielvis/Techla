@@ -41,20 +41,20 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white flex items-center justify-center px-4 py-8">
       <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-blue-600 mb-2">TECHLA SOLUTIONS</h1>
-          <p className="text-gray-600">Document Management System</p>
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-4xl font-bold text-blue-600 mb-2">TECHLA SOLUTIONS</h1>
+          <p className="text-sm sm:text-base text-gray-600">Document Management System</p>
         </div>
 
         <Card>
-          <div className="mb-6 text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
-              <LogIn className="text-blue-600" size={32} />
+          <div className="mb-4 sm:mb-6 text-center">
+            <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-blue-100 rounded-full mb-3 sm:mb-4">
+              <LogIn className="text-blue-600" size={24} />
             </div>
-            <h2 className="text-2xl font-bold text-gray-800">Login</h2>
-            <p className="text-gray-600 text-sm mt-2">Enter your credentials to continue</p>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Login</h2>
+            <p className="text-gray-600 text-xs sm:text-sm mt-2">Enter your credentials to continue</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">

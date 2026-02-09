@@ -33,12 +33,12 @@ export default function RootLayout({
             {children}
           </main>
 
-          <footer className="bg-white mt-16 py-6 border-t border-gray-200">
+          <footer className="bg-white mt-8 sm:mt-16 py-4 sm:py-6 border-t border-gray-200">
             <div className="max-w-7xl mx-auto px-4 text-center">
-              <p className="text-gray-600">
+              <p className="text-sm sm:text-base text-gray-600">
                 © {new Date().getFullYear()} Techla Solutions. All rights reserved.
               </p>
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2">
                 Professional Document Management System
               </p>
             </div>

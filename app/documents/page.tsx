@@ -61,18 +61,18 @@ export default function DocumentsPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white py-8 px-4">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white py-4 sm:py-8 px-3 sm:px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <Link href="/">
-            <Button variant="secondary" className="mb-4 flex items-center gap-2">
-              <ArrowLeft size={18} />
+            <Button variant="secondary" className="mb-4 flex items-center gap-2 text-sm sm:text-base">
+              <ArrowLeft size={16} className="sm:w-[18px] sm:h-[18px]" />
               Back to Home
             </Button>
           </Link>
-          <h1 className="text-3xl font-bold text-blue-600 mb-2">Saved Documents</h1>
-          <p className="text-gray-600">View, download, and manage your documents</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-blue-600 mb-2">Saved Documents</h1>
+          <p className="text-sm sm:text-base text-gray-600">View, download, and manage your documents</p>
         </div>
 
         {loading ? (
@@ -90,10 +90,10 @@ export default function DocumentsPage() {
             </Link>
           </Card>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             {/* Documents List */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">
+            <div className="space-y-3 sm:space-y-4">
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-3 sm:mb-4">
                 All Documents ({documents.length})
               </h2>
               {documents.map((doc) => (
@@ -106,23 +106,23 @@ export default function DocumentsPage() {
                   }`}
                   onClick={() => setSelectedDocument(doc)}
                 >
-                  <div className="flex justify-between items-start">
-                    <div className="flex-1">
+                  <div className="flex flex-col sm:flex-row justify-between items-start gap-3">
+                    <div className="flex-1 w-full">
                       <div className="flex items-center gap-2 mb-2">
-                        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">
+                        <span className="px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-semibold bg-blue-100 text-blue-700">
                           {getDocumentTypeDisplayName(doc.type)}
                         </span>
                       </div>
-                      <h3 className="font-bold text-lg text-gray-800 mb-1">
+                      <h3 className="font-bold text-base sm:text-lg text-gray-800 mb-1">
                         {doc.documentNumber}
                       </h3>
-                      <p className="text-sm text-gray-600">To: {doc.to}</p>
-                      <p className="text-sm text-gray-500">Date: {formatDate(doc.date)}</p>
-                      <p className="text-lg font-semibold text-blue-600 mt-2">
+                      <p className="text-xs sm:text-sm text-gray-600">To: {doc.to}</p>
+                      <p className="text-xs sm:text-sm text-gray-500">Date: {formatDate(doc.date)}</p>
+                      <p className="text-base sm:text-lg font-semibold text-blue-600 mt-2">
                         Total: {formatCurrency(doc.total)}
                       </p>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 self-end sm:self-start">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -153,35 +153,35 @@ export default function DocumentsPage() {
             <div className="lg:sticky lg:top-4 h-fit">
               {selectedDocument ? (
                 <Card>
-                  <div className="border-b-2 border-blue-500 pb-4 mb-6">
-                    <h2 className="text-2xl font-bold text-blue-600 mb-1">TECHLA SOLUTIONS</h2>
-                    <h3 className="text-lg font-semibold text-gray-700">
+                  <div className="border-b-2 border-blue-500 pb-3 sm:pb-4 mb-4 sm:mb-6">
+                    <h2 className="text-xl sm:text-2xl font-bold text-blue-600 mb-1">TECHLA SOLUTIONS</h2>
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-700">
                       {getDocumentTypeDisplayName(selectedDocument.type)}
                     </h3>
                   </div>
 
-                  <div className="space-y-4 mb-6">
-                    <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                       <div>
-                        <p className="text-sm font-medium text-gray-600">Date:</p>
-                        <p className="font-semibold">{formatDate(selectedDocument.date)}</p>
+                        <p className="text-xs sm:text-sm font-medium text-gray-600">Date:</p>
+                        <p className="text-sm sm:text-base font-semibold">{formatDate(selectedDocument.date)}</p>
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-gray-600">
+                        <p className="text-xs sm:text-sm font-medium text-gray-600">
                           {getDocumentTypeDisplayName(selectedDocument.type)} No.:
                         </p>
-                        <p className="font-semibold">{selectedDocument.documentNumber}</p>
+                        <p className="text-sm sm:text-base font-semibold">{selectedDocument.documentNumber}</p>
                       </div>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-600">To:</p>
-                      <p className="font-semibold">{selectedDocument.to}</p>
+                      <p className="text-xs sm:text-sm font-medium text-gray-600">To:</p>
+                      <p className="text-sm sm:text-base font-semibold">{selectedDocument.to}</p>
                     </div>
                   </div>
 
                   {/* Items Table */}
-                  <div className="mb-6 overflow-x-auto">
-                    <table className="w-full border-collapse text-sm">
+                  <div className="mb-4 sm:mb-6 overflow-x-auto -mx-4 sm:mx-0">
+                    <table className="w-full border-collapse text-xs sm:text-sm min-w-[500px]">
                       <thead>
                         <tr className="bg-blue-50">
                           <th className="border border-gray-300 px-2 py-2 text-left">No.</th>
@@ -210,7 +210,7 @@ export default function DocumentsPage() {
                   </div>
 
                   {/* Totals */}
-                  <div className="space-y-2 mb-6">
+                  <div className="space-y-2 mb-4 sm:mb-6">
                     <div className="flex justify-between py-2 border-b">
                       <span className="font-medium">Subtotal:</span>
                       <span className="font-semibold">{formatCurrency(selectedDocument.subtotal)}</span>
@@ -228,36 +228,36 @@ export default function DocumentsPage() {
                   </div>
 
                   {/* Amount in Words */}
-                  <div className="mb-6">
-                    <p className="text-sm font-medium text-gray-600 mb-1">Amount in Words:</p>
-                    <div className="px-4 py-3 bg-gray-50 rounded-lg border border-gray-300">
-                      <p className="font-medium text-sm">{selectedDocument.amountInWords}</p>
+                  <div className="mb-4 sm:mb-6">
+                    <p className="text-xs sm:text-sm font-medium text-gray-600 mb-1">Amount in Words:</p>
+                    <div className="px-3 sm:px-4 py-2 sm:py-3 bg-gray-50 rounded-lg border border-gray-300">
+                      <p className="font-medium text-xs sm:text-sm">{selectedDocument.amountInWords}</p>
                     </div>
                   </div>
 
                   {/* Signature */}
                   {selectedDocument.signature && (
-                    <div className="mb-6">
-                      <p className="text-sm font-medium text-gray-600 mb-1">Signature:</p>
-                      <p className="font-semibold">{selectedDocument.signature}</p>
+                    <div className="mb-4 sm:mb-6">
+                      <p className="text-xs sm:text-sm font-medium text-gray-600 mb-1">Signature:</p>
+                      <p className="text-sm sm:text-base font-semibold">{selectedDocument.signature}</p>
                     </div>
                   )}
 
                   {/* Actions */}
-                  <div className="flex gap-4 pt-4 border-t">
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 border-t">
                     <Button
                       onClick={() => downloadDocument(selectedDocument)}
-                      className="flex-1 flex items-center justify-center gap-2"
+                      className="flex-1 flex items-center justify-center gap-2 text-sm sm:text-base"
                     >
-                      <Download size={18} />
+                      <Download size={16} className="sm:w-[18px] sm:h-[18px]" />
                       Download
                     </Button>
                     <Button
                       variant="danger"
                       onClick={() => deleteDocument(selectedDocument.id)}
-                      className="flex-1 flex items-center justify-center gap-2"
+                      className="flex-1 flex items-center justify-center gap-2 text-sm sm:text-base"
                     >
-                      <Trash2 size={18} />
+                      <Trash2 size={16} className="sm:w-[18px] sm:h-[18px]" />
                       Delete
                     </Button>
                   </div>

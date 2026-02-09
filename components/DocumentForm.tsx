@@ -172,26 +172,26 @@ export default function DocumentForm({ type }: DocumentFormProps) {
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-6 bg-white">
+    <div className="max-w-5xl mx-auto p-3 sm:p-6 bg-white">
       {/* Techla Header */}
-      <div className="border border-gray-300 p-6 mb-0">
+      <div className="border border-gray-300 p-3 sm:p-6 mb-0">
         {/* Top Section with Logo and Info */}
-        <div className="flex justify-between items-start mb-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-4">
           {/* Logo and Branding */}
-          <div className="flex items-center gap-3">
-            <div className="w-16 h-16 bg-[#0066CC] rounded-lg flex items-center justify-center">
-              <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-[#0066CC] rounded-lg flex items-center justify-center">
+              <svg className="w-8 h-8 sm:w-12 sm:h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
               </svg>
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-[#0066CC]">Techla</h1>
-              <p className="text-xs text-gray-600 uppercase tracking-wide">DESIGN | PRINT | BRANDING | PROMOTION</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-[#0066CC]">Techla</h1>
+              <p className="text-[10px] sm:text-xs text-gray-600 uppercase tracking-wide">DESIGN | PRINT | BRANDING | PROMOTION</p>
             </div>
           </div>
           
           {/* Date and Document Number */}
-          <div className="text-right text-sm">
+          <div className="text-left sm:text-right text-sm w-full sm:w-auto">
             <div className="mb-2">
               <label className="inline-block w-16 font-medium">DATE:</label>
               <input
@@ -227,19 +227,19 @@ export default function DocumentForm({ type }: DocumentFormProps) {
             type="text"
             value={to}
             onChange={(e) => setTo(e.target.value)}
-            className="px-2 py-1 border-b border-gray-400 focus:outline-none w-64"
+            className="px-2 py-1 border-b border-gray-400 focus:outline-none w-full sm:w-64"
             placeholder="Client name"
           />
         </div>
 
         {/* Document Type Banner */}
-        <div className="bg-[#0066CC] text-white text-center py-2 font-bold text-lg uppercase tracking-wide -mx-6 mb-4">
+        <div className="bg-[#0066CC] text-white text-center py-2 font-bold text-base sm:text-lg uppercase tracking-wide -mx-3 sm:-mx-6 mb-4">
            {getDocumentTypeDisplayName(type).toUpperCase()}
         </div>
 
         {/* Items Table */}
-        <div className="mb-4">
-          <table className="w-full border-collapse border border-gray-400">
+        <div className="mb-4 overflow-x-auto -mx-3 sm:mx-0">
+          <table className="w-full border-collapse border border-gray-400 min-w-[600px]">
             <thead>
               <tr className="bg-[#0066CC] text-white">
                 <th className="border border-gray-400 px-2 py-2 text-center text-sm w-12">Item</th>
@@ -382,20 +382,20 @@ export default function DocumentForm({ type }: DocumentFormProps) {
         </div>
 
         {/* Services Banner */}
-        <div className="bg-[#FF6600] text-white text-center py-1 font-bold text-sm -mx-6 mb-3">
+        <div className="bg-[#FF6600] text-white text-center py-1 font-bold text-xs sm:text-sm -mx-3 sm:-mx-6 mb-3">
           OUR SERVICES
         </div>
 
         {/* Services and Contact */}
-        <div className="bg-[#0066CC] text-white -mx-6 px-6 py-3">
-          <div className="flex justify-between text-xs">
+        <div className="bg-[#0066CC] text-white -mx-3 sm:-mx-6 px-3 sm:px-6 py-3">
+          <div className="flex flex-col sm:flex-row justify-between gap-3 text-[10px] sm:text-xs">
             <div className="flex-1">
               <p className="mb-1">
                 <strong>Office Branding |</strong> Car Branding | <strong>Promotional Items |</strong> Civil Sign Boards |{' '}
                 <strong>Tent Branding |</strong> Posters & Banners | <strong>Digital Marketing</strong>
               </p>
             </div>
-            <div className="ml-6 text-right whitespace-nowrap">
+            <div className="sm:ml-6 text-left sm:text-right sm:whitespace-nowrap">
               <p><strong>Tel:</strong> 0759101025 | 0777C279480</p>
               <p><strong>Email:</strong> techlauganda@gmail.com</p>
               <p><strong>Address:</strong> Hanuman Road Opp Cham Towers</p>
@@ -405,24 +405,25 @@ export default function DocumentForm({ type }: DocumentFormProps) {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex flex-wrap gap-4 justify-end mt-6">
+      <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-end mt-6">
         <Button
           variant="secondary"
           onClick={() => router.push('/')}
+          className="w-full sm:w-auto"
         >
           Cancel
         </Button>
         <Button
           variant="secondary"
           onClick={downloadDocument}
-          className="flex items-center gap-2"
+          className="w-full sm:w-auto flex items-center justify-center gap-2"
         >
           <Download size={18} />
           Download PDF
         </Button>
         <Button
           onClick={saveDocument}
-          className="flex items-center gap-2"
+          className="w-full sm:w-auto flex items-center justify-center gap-2"
         >
           <Save size={18} />
           Save Document

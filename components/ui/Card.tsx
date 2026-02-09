@@ -9,7 +9,7 @@ interface CardProps {
 export default function Card({ children, className = '', onClick }: CardProps) {
   return (
     <div 
-      className={`bg-white rounded-lg shadow-md p-6 ${className} ${onClick ? 'cursor-pointer' : ''}`}
+      className={`bg-white rounded-lg shadow-md p-4 sm:p-6 ${className} ${onClick ? 'cursor-pointer' : ''}`}
       onClick={onClick}
     >
       {children}
