@@ -373,8 +373,7 @@ export default function DocumentForm({ type }: DocumentFormProps) {
             className="mx-2 px-2 py-1 border-b border-gray-400 focus:outline-none w-32"
             placeholder="____"
           />
-          <span className="font-medium ml-8">All</span>
-          <span className="mx-2 border-b border-gray-400 inline-block w-32"></span>
+          
         </div>
 
         {/* Company Name */}
