@@ -19,6 +19,8 @@ import Card from './ui/Card';
 import { Plus, Trash2, Save, Download } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { DocumentPDF } from './DocumentPDF';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 interface DocumentFormProps {
   type: DocumentType;
@@ -116,57 +118,41 @@ export default function DocumentForm({ type }: DocumentFormProps) {
   };
 
   // Download document as PDF
-  const downloadDocument = () => {
+  const downloadDocument = async () => {
     if (!documentNumber || !to) {
       alert('Please fill in Document Number and TO fields');
       return;
     }
 
-    const doc: Document = {
-      id: generateId(),
-      type,
-      documentNumber,
-      date,
-      to,
-      items,
-      subtotal,
-      vat,
-      total,
-      amountInWords,
-      signature,
-      createdAt: new Date().toISOString()
-    };
-
-    // Trigger browser print dialog (user can save as PDF)
-    const printWindow = window.open('', '_blank');
-    if (printWindow) {
-      const pdfContent = pdfRef.current;
-      if (pdfContent) {
-        printWindow.document.write(`
-          <!DOCTYPE html>
-          <html>
-          <head>
-            <title>${type}-${documentNumber}</title>
-            <style>
-              @page {
-                size: A4;
-                margin: 0;
-              }
-              body {
-                margin: 0;
-                padding: 0;
-              }
-            </style>
-          </head>
-          <body>
-            ${pdfContent.innerHTML}
-          </body>
-          </html>
-        `);
-        printWindow.document.close();
-        setTimeout(() => {
-          printWindow.print();
-        }, 250);
+    const pdfContent = pdfRef.current;
+    if (pdfContent) {
+      try {
+        // Generate canvas from the PDF component
+        const canvas = await html2canvas(pdfContent, {
+          scale: 2, // Higher quality
+          useCORS: true,
+          logging: false,
+          backgroundColor: '#ffffff'
+        });
+        
+        // Create PDF (A4 size: 210mm x 297mm)
+        const pdf = new jsPDF({
+          orientation: 'portrait',
+          unit: 'mm',
+          format: 'a4'
+        });
+        
+        const imgWidth = 210; // A4 width in mm
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        const imgData = canvas.toDataURL('image/png');
+        
+        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+        
+        // Download the PDF
+        pdf.save(`${type}-${documentNumber}-${date}.pdf`);
+      } catch (error) {
+        console.error('Error generating PDF:', error);
+        alert('Failed to generate PDF. Please try again.');
       }
     }
   };

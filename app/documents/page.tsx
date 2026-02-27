@@ -10,6 +10,8 @@ import { Download, Trash2, FileText, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { DocumentPDF } from '@/components/DocumentPDF';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 export default function DocumentsPage() {
   const [documents, setDocuments] = useState<Document[]>([]);
@@ -50,46 +52,47 @@ export default function DocumentsPage() {
     }
   };
 
-  const downloadDocument = (doc: Document) => {
+  const downloadDocument = async (doc: Document) => {
     // Temporarily set the document to render in the hidden PDF component
     const previousDoc = selectedDocument;
     setSelectedDocument(doc);
     
-    // Wait for the PDF component to render, then trigger print
-    setTimeout(() => {
-      const printWindow = window.open('', '_blank');
-      if (printWindow && pdfRef.current) {
-        printWindow.document.write(`
-          <!DOCTYPE html>
-          <html>
-          <head>
-            <title>${doc.type}-${doc.documentNumber}</title>
-            <style>
-              @page {
-                size: A4;
-                margin: 0;
-              }
-              body {
-                margin: 0;
-                padding: 0;
-              }
-            </style>
-          </head>
-          <body>
-            ${pdfRef.current.innerHTML}
-          </body>
-          </html>
-        `);
-        printWindow.document.close();
-        setTimeout(() => {
-          printWindow.print();
-          // Restore previous selection after a delay
-          setTimeout(() => {
-            setSelectedDocument(previousDoc);
-          }, 500);
-        }, 250);
+    // Wait for the PDF component to render
+    setTimeout(async () => {
+      if (pdfRef.current) {
+        try {
+          // Generate canvas from the PDF component
+          const canvas = await html2canvas(pdfRef.current, {
+            scale: 2, // Higher quality
+            useCORS: true,
+            logging: false,
+            backgroundColor: '#ffffff'
+          });
+          
+          // Create PDF (A4 size: 210mm x 297mm)
+          const pdf = new jsPDF({
+            orientation: 'portrait',
+            unit: 'mm',
+            format: 'a4'
+          });
+          
+          const imgWidth = 210; // A4 width in mm
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+          const imgData = canvas.toDataURL('image/png');
+          
+          pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+          
+          // Download the PDF
+          pdf.save(`${doc.type}-${doc.documentNumber}-${doc.date}.pdf`);
+          
+          // Restore previous selection
+          setSelectedDocument(previousDoc);
+        } catch (error) {
+          console.error('Error generating PDF:', error);
+          alert('Failed to generate PDF. Please try again.');
+          setSelectedDocument(previousDoc);
+        }
       } else {
-        // Restore previous selection if print failed
         setSelectedDocument(previousDoc);
       }
     }, 100);
