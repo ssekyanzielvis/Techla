@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Document } from '@/lib/types';
 import { formatCurrency, formatDate, getDocumentTypeDisplayName } from '@/lib/utils';
 import { getDocuments, deleteDocument as deleteFromDatabase } from '@/lib/database';
@@ -9,11 +9,13 @@ import Button from '@/components/ui/Button';
 import { Download, Trash2, FileText, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import { DocumentPDF } from '@/components/DocumentPDF';
 
 export default function DocumentsPage() {
   const [documents, setDocuments] = useState<Document[]>([]);
   const [selectedDocument, setSelectedDocument] = useState<Document | null>(null);
   const [loading, setLoading] = useState(true);
+  const pdfRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     loadDocuments();
@@ -49,14 +51,48 @@ export default function DocumentsPage() {
   };
 
   const downloadDocument = (doc: Document) => {
-    const dataStr = JSON.stringify(doc, null, 2);
-    const dataBlob = new Blob([dataStr], { type: 'application/json' });
-    const url = URL.createObjectURL(dataBlob);
-    const linkElement = window.document.createElement('a');
-    linkElement.href = url;
-    linkElement.download = `${doc.type}-${doc.documentNumber}-${doc.date}.json`;
-    linkElement.click();
-    URL.revokeObjectURL(url);
+    // Temporarily set the document to render in the hidden PDF component
+    const previousDoc = selectedDocument;
+    setSelectedDocument(doc);
+    
+    // Wait for the PDF component to render, then trigger print
+    setTimeout(() => {
+      const printWindow = window.open('', '_blank');
+      if (printWindow && pdfRef.current) {
+        printWindow.document.write(`
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>${doc.type}-${doc.documentNumber}</title>
+            <style>
+              @page {
+                size: A4;
+                margin: 0;
+              }
+              body {
+                margin: 0;
+                padding: 0;
+              }
+            </style>
+          </head>
+          <body>
+            ${pdfRef.current.innerHTML}
+          </body>
+          </html>
+        `);
+        printWindow.document.close();
+        setTimeout(() => {
+          printWindow.print();
+          // Restore previous selection after a delay
+          setTimeout(() => {
+            setSelectedDocument(previousDoc);
+          }, 500);
+        }, 250);
+      } else {
+        // Restore previous selection if print failed
+        setSelectedDocument(previousDoc);
+      }
+    }, 100);
   };
 
   return (
@@ -272,6 +308,13 @@ export default function DocumentsPage() {
           </div>
         )}
       </div>
+      
+      {/* Hidden PDF Component for Download */}
+      {selectedDocument && (
+        <div style={{ position: 'absolute', left: '-9999px', top: 0 }}>
+          <DocumentPDF ref={pdfRef} document={selectedDocument} />
+        </div>
+      )}
     </div>
     </ProtectedRoute>
   );
